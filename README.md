@@ -1,7 +1,7 @@
 nlfuzzy
 =======
 
-"Nlfuzzy" is a [NetLogo](http://ccl.northwestern.edu/netlogo/) extension which acts as a a simple middleware between NetLogo and [jFuzzyLogic](http://jfuzzylogic.sourceforge.net/html/index.html) library. It allows you to define fuzzy variables and rules for NetLogo agents (turtles, patches) using [Fuzzy Control Language](http://jfuzzylogic.sourceforge.net/html/manual.html#details). 
+"Nlfuzzy" is a [NetLogo](http://ccl.northwestern.edu/netlogo/) extension which acts as a a simple middleware between NetLogo and [jFuzzyLogic](http://jfuzzylogic.sourceforge.net/html/index.html) library. It allows you to define fuzzy variables and rules for NetLogo agents (turtles, patches) using [Fuzzy Control Language](http://jfuzzylogic.sourceforge.net/html/manual.html#details) (see [full FCL specification](http://www.fuzzytech.com/binaries/ieccd1.pdf) for more information).
 
 Download the extension
 ----------------------
@@ -11,17 +11,17 @@ Precompiled version can be downloaded [here](https://s3-eu-west-1.amazonaws.com/
 How to build nlfuzzy
 --------------------
 
-If you want to build *nlfuzzy* yourself, then the following requirements must be met:
+If you want to build *nlfuzzy* yourself, then your computer has to meet the following requirements:
 
 * installed NetLogo 5.1 (5.0.x should work too) or at least *NetLogo.jar* library from the installation package,
 * installed Java Development Kit (JDK) of at least version 6 (currently it is better to download version 8 which is backward compatible; see [downloads at Oracle](http://www.oracle.com/technetwork/java/javase/downloads/index.html)),
 * installed [Apache Maven](https://maven.apache.org/).
 
-Many Java libraries are available via public Maven repositories but in some cases, however, this is not true. This holds for both *NetLogo* and *jFuzzyLogic* which  must be downloaded manually and installed as local Maven dependencies. Thanks to this, Maven will be able to find all the necessary dependencies defined in *pom.xml* file.
+Many Java libraries are available via public Maven repositories but in some cases, however, this is not true. This holds for both *NetLogo* and *jFuzzyLogic* which must be downloaded manually and installed as local Maven dependencies. Thanks to this, Maven will be able to find all the necessary dependencies defined in *pom.xml* file.
 
 ### Install NetLogo.jar as a local Maven dependency
 
-In case you have Windows Vista/7/8, open a command line window (*cmd* or *powershell*), change your working directory (command *cd*) to the downloaded source code directory (i.e. the directory where file *pom.xml* is located) and type:
+In case you have Windows Vista/7/8, open a command line window (*cmd* or *powershell*), change your working directory (command *cd*) to the downloaded and unpacked source code directory (i.e. the directory where file *pom.xml* is located) and type:
 
 ```
 mvn install:install-file -Dfile="C:/Program Files (x86)/NetLogo 5.1.0/NetLogo.jar" -DgroupId=org.nlogo -DartifactId=netlogo -Dversion=5.1.0 -Dpackaging=jar
@@ -37,7 +37,7 @@ Download the *core* version of *jFuzzyLogic* from the [project site](http://jfuz
 mvn install:install-file -Dfile="C:/Users/JaneDoe/Downloads/jFuzzyLogic_core.jar" -DgroupId=net.sourceforge -DartifactId=jFuzzyLogic -Dversion=3.0 -Dpackaging=jar
 ```
 
-Again, path to the *jar* file must be correct.
+Again, path to the respective *jar* file must be correct.
 
 ### Build the project
 
@@ -50,7 +50,7 @@ mvn clean dependency:copy-dependencies package
 How to install the extension
 ----------------------------
 
-If you have built *nlfuzzy* **from sources** then copy the *nlfuzzy.jar* (located in the *./target* directory) and *jFuzzyLogic.jar* (located in the *./target/dependency* directory) files to your NetLogo installation directory's *extensions/nlfuzzy* subdirectory (*extensions* is already there but *nlfuzzy* must be created yet).
+If you have built *nlfuzzy* **from sources** then copy the *nlfuzzy.jar* (located in the *./target* directory) and *jFuzzyLogic.jar* (located in the *./target/dependency* directory) files to your NetLogo installation directory's *extensions/nlfuzzy* subdirectory (*extensions* is already there but *nlfuzzy* has yet to be created).
 
 In case you have downloaded the **compiled version**, just copy the *nlfuzzy* directory to the *extensions* directory.
 
@@ -89,7 +89,18 @@ ask turtles [
   nlfuzzy:set-value "some_fuzzy_variable" "a_value_to_be_assigned"
 ]
 ```
+
+### nlfuzzy-eval
+
+This function evaluates defined rules for passed output variable name. E.g.:
+
+```
+ask turtles [
+  set speed nlfuzzy:eval "speed"
+]
+```
  
+A skeleton of a nlfuzzy-based program may look like this:
 
 ```
 extensions [ nlfuzzy ]
@@ -110,5 +121,6 @@ to go
     set some-variable (nlfuzzy-eval "output_variable")
   ]
 ]
+```
 
-
+A simple working demo showing how to use *nlfuzzy* can be found in the *demo* directory. 
