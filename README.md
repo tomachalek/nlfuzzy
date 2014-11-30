@@ -59,7 +59,7 @@ If you have a running NetLogo instance then you must exit the program and run it
 How to use the extension
 ------------------------
 
-### nlfuzzy-init
+### nlfuzzy"init
 
 Before attaching any rules or evaluating any variables, an *nlfuzzy:init* procedure must be called (typically in the "setup" function - see the example below).
 
@@ -80,7 +80,7 @@ ask turtles [
 ]
 ```
 
-### nlfuzzy-set-value
+### nlfuzzy:set-value
 
 Input variables (defined in your FCL file) are set via function *nlfuzzy:set-value "fuzzy-variable-name" "a-value-to-be-set".
 
@@ -90,7 +90,7 @@ ask turtles [
 ]
 ```
 
-### nlfuzzy-eval
+### nlfuzzy:eval
 
 This function evaluates defined rules for passed output variable name. E.g.:
 
