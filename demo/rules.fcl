@@ -1,0 +1,51 @@
+FUNCTION_BLOCK rules
+
+VAR_INPUT
+    prev_density : REAL;
+    curr_density : REAL;
+END_VAR
+
+VAR_OUTPUT
+    speed : REAL;
+END_VAR
+
+FUZZIFY prev_density
+    TERM low := (0 1) (0.3 1) (0.41 0); 
+    TERM middle := (0.3 0) (0.40  1) (0.60 1) (0.70 0);
+    TERM high := (0.59 0) (0.68 1);
+END_FUZZIFY
+
+FUZZIFY curr_density
+    TERM low := (0 1) (0.3 1) (0.41 0); 
+    TERM middle := (0.3 0) (0.45 1) (0.59 1) (0.69 0);
+    TERM high := (0.59 0) (0.68 1);
+END_FUZZIFY
+
+DEFUZZIFY speed
+    TERM slow := (0 0) (0.6 1) (0.8 1) (1.2 0); 
+    TERM middle := (0.9 0) (1.7 1) (1.9 1) (2.4 0);
+    TERM fast := (1.8 0) (2.5 1);
+    METHOD : COG;
+    DEFAULT := 1;
+END_DEFUZZIFY
+
+
+RULEBLOCK No1
+    AND : MIN;
+    ACT : MIN;
+    ACCU : NSUM;
+
+    RULE 1 : IF prev_density IS low AND curr_density IS low THEN speed IS fast;
+    RULE 2 : IF prev_density IS low AND curr_density IS middle THEN speed IS middle;
+    RULE 3 : IF prev_density IS low AND curr_density IS high THEN speed IS slow;
+
+    RULE 4 : IF prev_density IS middle AND curr_density IS low THEN speed IS middle;
+    RULE 5 : IF prev_density IS middle AND curr_density IS middle THEN speed IS fast;
+    RULE 6 : IF prev_density IS middle AND curr_density IS high THEN speed IS slow;
+
+    RULE 7 : IF prev_density IS high AND curr_density IS low THEN speed IS middle;
+    RULE 8 : IF prev_density IS high AND curr_density IS middle THEN speed IS slow;
+    RULE 9 : IF prev_density IS high AND curr_density IS high THEN speed IS slow;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
